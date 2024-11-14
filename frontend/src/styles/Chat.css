@@ -1,0 +1,14 @@
+.chat-app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+  
+.chat-room-list {
+    background-color: #f8f9fa;
+}
+  
+.chat-box {
+    display: flex;
+    flex-direction: column;
+}
