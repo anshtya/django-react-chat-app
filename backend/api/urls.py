@@ -1,4 +1,4 @@
-from django.urls import include, path, re_path
+from django.urls import include, path
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from .views import ChatRoomMessageListAPIView, ChatRoomsListView, RegisterUserView, MyProfileView, UserProfileView
 

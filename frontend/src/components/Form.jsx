@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
+import { ACCESS_TOKEN, REFRESH_TOKEN, USER } from "../constants";
 import "../styles/Form.css"
 import LoadingIndicator from "./LoadingIndicator";
+import { AuthContext } from "../context/AuthContext";
 
 function Form({ route, method }) {
+    const { setUser } = useContext(AuthContext);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
@@ -20,10 +22,15 @@ function Form({ route, method }) {
         try {
             let res = await api.post(route, { username, password })
             if (method !== "login") {
-                res = await api.post("api/auth/token/", { username, password })
+                res = await api.post("auth/token/", { username, password })
             }
             localStorage.setItem(ACCESS_TOKEN, res.data.access);
             localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
+
+            res = await api.get("profile/");
+            localStorage.setItem(USER, JSON.stringify(res.data));
+            setUser(res.data);
+
             navigate("/")
         } catch (error) {
             alert(error)

@@ -22,7 +22,11 @@ class ChatRoomSerializer(serializers.ModelSerializer):
 
 class MessageSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
+    user_picture = serializers.SerializerMethodField()
 
     class Meta:
         model = Message
-        fields = '__all__'
+        fields = ['id', 'content', 'room', 'user', 'user_picture']
+
+    def get_user_picture(self, obj):
+        return obj.user.profile_picture.url
