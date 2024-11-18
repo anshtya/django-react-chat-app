@@ -1,11 +1,28 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ChatContext } from "../../context/ChatContext";
 import { FormControl, Stack } from "react-bootstrap";
+import { toast, ToastContainer } from "react-toastify";
 import "../../index.css"
+import "react-toastify/dist/ReactToastify.css";
 
 const ChatBox = () => {
-    const { user, currentRoom, messages, sendTextMessage } = useContext(ChatContext);
-    const { textMessage, setTextMessage } = useState("");
+    const { 
+        user, 
+        currentRoom, 
+        messages, 
+        sendTextMessage, 
+        userJoinNotification, 
+        setUserJoinNotification 
+    } = useContext(ChatContext);
+
+    const [ textMessage, setTextMessage ] = useState("");
+
+    useEffect(() => {
+        if (userJoinNotification) {
+            toast.info(userJoinNotification);
+            setUserJoinNotification(null)
+        }
+    }, [userJoinNotification]);
 
     if (!currentRoom) return (
         <p style={{ textAlign: "center", width: "100%" }}>
@@ -17,6 +34,9 @@ const ChatBox = () => {
         <Stack gap={4} className="chat-box">
             <div className="chat-header">
                 <strong>{currentRoom.name}</strong>
+            </div>
+            <div>
+                <ToastContainer />
             </div>
             <Stack gap={3} className="messages">
                 {messages && messages.map((message, index) =>
@@ -40,11 +60,13 @@ const ChatBox = () => {
             <Stack direction="horizontal" gap={3} className="chat-input flex-group-0">
                 <FormControl
                     value={textMessage}
-                    onChange={setTextMessage}
+                    onChange={(text) => {setTextMessage(text.target.value)}}
                 />
                 <button className="send-btn"
-                    // onClick={() => sendTextMessage(textMessage, user, currentChat._id, setTextMessage)}
-                    onClick={() => { }}
+                    onClick={() => {
+                        sendTextMessage(textMessage, user.profile_picture.replace("http://localhost:8000",""));
+                        setTextMessage("");
+                    }}
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">

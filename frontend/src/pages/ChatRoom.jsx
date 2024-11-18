@@ -7,13 +7,12 @@ import ChatBox from '../components/chat/ChatBox';
 import '../index.css';
 
 function ChatRoom() {
-    const { chatRooms, setCurrentRoom, } = useContext(ChatContext);
+    const { chatRooms, setCurrentRoom } = useContext(ChatContext);
 
     return (
-        <div style={{backgroundColor: 'black', color: 'white', minHeight: '100vh'}}>
+        <div style={{ backgroundColor: 'black', color: 'white', minHeight: '100vh' }}>
             <NavBar />
             <Container className="text-secondary d-flex flex-column vh-100">
-                
                 <Stack direction="horizontal" gap={4} className="align-items-start">
                     <Stack className="chat-room-list messagees-box flex-grow-0 pe-3" gap={3}>
                         {chatRooms?.map((room, index) => {
