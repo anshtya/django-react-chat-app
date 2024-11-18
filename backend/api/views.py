@@ -19,7 +19,7 @@ class MyProfileView(generics.RetrieveUpdateAPIView):
 class UserProfileView(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = ProfileSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def get_object(self):
         username_arg = self.kwargs['username']
@@ -28,20 +28,13 @@ class UserProfileView(generics.RetrieveAPIView):
 class ChatRoomsListView(generics.ListAPIView):
     queryset = ChatRoom.objects.all()
     serializer_class = ChatRoomSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
 class ChatRoomMessageListAPIView(generics.ListAPIView):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         chatroom_id = self.kwargs['pk']
         return super().get_queryset().filter(room_id=chatroom_id)
-
-# class MessageCreateAPIView(generics.CreateAPIView):
-#     serializer_class = MessageSerializer
-#     permission_classes = [IsAuthenticated]
-
-#     def perform_create(self, serializer):
-#         serializer.save(user=self.request.user)
