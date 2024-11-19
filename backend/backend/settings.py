@@ -41,6 +41,7 @@ REST_FRAMEWORK = {
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -86,6 +87,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 ASGI_APPLICATION = 'backend.asgi.application'
 
 AUTH_USER_MODEL = "api.User"
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Chatroom Admin",
+    "site_brand": "Chatroom Admin",
+    "search_model": ["api.User"]
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
