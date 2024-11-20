@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import { ChatContext } from "../../context/ChatContext";
 import { FormControl, Stack } from "react-bootstrap";
 import { toast, ToastContainer } from "react-toastify";
-import "../../index.css"
 import "react-toastify/dist/ReactToastify.css";
 
 const ChatBox = () => {
