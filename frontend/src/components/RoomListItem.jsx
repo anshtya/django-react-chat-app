@@ -1,4 +1,4 @@
-const Room = ({ room }) => {
+const RoomListItem = ({ room }) => {
     return (
         <div className="user-card align-items-center p-2 justify-content-between" role="button">
             <div className="text-content">
@@ -8,4 +8,4 @@ const Room = ({ room }) => {
     );
 }
 
-export default Room
+export default RoomListItem

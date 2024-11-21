@@ -5,8 +5,9 @@ import ProtectedRoute from "./components/ProtectedRoute"
 import { useContext } from "react"
 import { AuthContext } from "./context/AuthContext"
 import { ChatContextProvider } from "./context/ChatContext"
-import ChatRoom from "./pages/ChatRoom"
+import ChatRooms from "./pages/ChatRooms"
 import "bootstrap/dist/css/bootstrap.min.css"
+import Room from "./pages/Room"
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -16,11 +17,21 @@ function App() {
         <Route
           path="/"
           element={
-            <ProtectedRoute>
-              <ChatContextProvider user={user}>
-                <ChatRoom />
-              </ChatContextProvider>
-            </ProtectedRoute>
+            <ChatContextProvider user={user}>
+              <ProtectedRoute>
+                <ChatRooms />
+              </ProtectedRoute>
+            </ChatContextProvider>
+          }
+        />
+        <Route
+          path="/room/:roomId"
+          element={
+            <ChatContextProvider user={user}>
+              <ProtectedRoute>
+                <Room />
+              </ProtectedRoute>
+            </ChatContextProvider>
           }
         />
         <Route path="/login" element={<Login />} />
