@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN, REFRESH_TOKEN, USER } from "../constants";
@@ -11,15 +11,25 @@ function Form({ route, method }) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(null)
     const navigate = useNavigate();
 
     const name = method === "login" ? "Login" : "Register";
 
+    useEffect(() => {
+        if (errorMessage) setErrorMessage(null)
+    }, [username, password])
+
     const handleSubmit = async (e) => {
+        setErrorMessage(null)
         setLoading(true);
         e.preventDefault();
 
         try {
+            if (username === "" || password === "") {
+                throw new Error("Incomplete credentials");
+            }
+
             let res = await api.post(route, { username, password })
             if (method !== "login") {
                 res = await api.post("auth/token/", { username, password })
@@ -33,7 +43,13 @@ function Form({ route, method }) {
 
             navigate("/")
         } catch (error) {
-            alert(error)
+            if (method === "login" && error.status === 401) {
+                setErrorMessage("Invalid credentials");
+            } else if (error.message) {
+                setErrorMessage(error.message)
+            } else {
+                setErrorMessage("An error occurred");
+            }
         } finally {
             setLoading(false)
         }
@@ -60,6 +76,7 @@ function Form({ route, method }) {
             <button className="form-button" type="submit">
                 {name}
             </button>
+            {errorMessage && <p style={{color: "red"}}>{errorMessage}</p>}
         </form>
     );
 }
