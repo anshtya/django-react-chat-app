@@ -7,31 +7,29 @@ const NavBar = () => {
     const navigate = useNavigate();
     const { setUser } = useContext(AuthContext);
 
-    const Logout =() => {
+    const Logout = () => {
         const handleLogout = () => {
-          localStorage.clear();
-          setUser(null);
-          navigate('/login');
+            localStorage.clear();
+            setUser(null);
+            navigate('/login');
         };
-      
+
         return (
-          <button class="logout-btn" onClick={handleLogout}>
-            Log Out
-          </button>
+            <button class="logout-btn" onClick={handleLogout}>
+                Log Out
+            </button>
         );
     }
 
     return (
-        <Navbar bg="dark" className="nb-4" style={{ height:"3.75rem" }}>
+        <Navbar bg="dark" className="justify-content-between" style={{ height: "3.75rem"}}>
             <Container>
-                <h2>
-                    <Link to="/" className="link-light text-decoration-none">Chat</Link>
-                </h2>
-                <Nav>
-                    <Stack direction="horizontal" gap={3}>
-                        <Logout/>
-                    </Stack>
-                </Nav>
+            <h2>
+                <Link to="/" className="link-light text-decoration-none">Chat</Link>
+            </h2>
+            <Nav>
+                <Logout />
+            </Nav>
             </Container>
         </Navbar>
     );
